@@ -26,7 +26,7 @@ This is a normal view and without fucking brackets of Monolog's. Okay, I'm hate 
 0) Install library through `composer`:
 
 ```bash
-composer require microparts/logs-php
+composer require spacetab-io/logger-php
 ```
 
 1) Basic example for most cases will do like as:
