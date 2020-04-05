@@ -1,0 +1,31 @@
+{
+  "name": "spacetab-io/logger-php",
+  "description": "Simple pre-configured Monolog wrapper. Without fucking brackets.",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "roquie",
+      "email": "roquie0@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.4",
+    "monolog/monolog": "^2.0"
+  },
+  "require-dev": {
+    "symfony/var-dumper": "^4.2 || ^5.0",
+    "phpunit/phpunit": "^9.1",
+    "phpstan/phpstan": "^0.12.18"
+  },
+  "autoload": {
+    "psr-4": {
+      "Spacetab\\Logger\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Spacetab\\Logger\\Tests\\": "tests/"
+    }
+  }
+}
