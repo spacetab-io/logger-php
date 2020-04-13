@@ -1,5 +1,5 @@
 {
-  "name": "spacetab-io/logger-php",
+  "name": "spacetab-io/logger",
   "description": "Simple pre-configured Monolog wrapper. Without fucking brackets.",
   "type": "library",
   "license": "MIT",
