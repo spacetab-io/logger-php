@@ -1,6 +1,6 @@
 {
   "name": "spacetab-io/logger",
-  "description": "Simple pre-configured Monolog wrapper. Without fucking brackets.",
+  "description": "Non-blocking logging for PHP based on Amp and Monolog. Without fucking brackets.",
   "type": "library",
   "license": "MIT",
   "authors": [
@@ -11,12 +11,12 @@
   ],
   "require": {
     "php": ">=7.4",
-    "monolog/monolog": "^2.0"
+    "amphp/log": "^1.1"
   },
   "require-dev": {
     "symfony/var-dumper": "^4.2 || ^5.0",
     "phpunit/phpunit": "^9.1",
-    "phpstan/phpstan": "^0.12.18"
+    "phpstan/phpstan": "^0.12"
   },
   "autoload": {
     "psr-4": {

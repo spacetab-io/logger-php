@@ -2,8 +2,9 @@
 
 namespace Spacetab\Logger;
 
-use Monolog\Formatter\LineFormatter;
-use Monolog\Handler\ErrorLogHandler;
+use Amp\Log\ConsoleFormatter;
+use Amp\Log\StreamHandler;
+use Amp\ByteStream;
 use Monolog\Logger as Monolog;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
@@ -59,7 +60,7 @@ final class Logger
     public static function new(string $channel = self::CHANNEL, string $level = LogLevel::INFO): Logger
     {
         $log = new Logger($channel, $level);
-        $log->addErrorLogHandler();
+        $log->addStreamHandler();
 
         return $log;
     }
@@ -74,7 +75,7 @@ final class Logger
     public static function default(string $channel = self::CHANNEL, string $level = LogLevel::INFO): LoggerInterface
     {
         $log = new Logger($channel, $level);
-        $log->addErrorLogHandler();
+        $log->addStreamHandler();
         $log->register();
 
         return $log->getMonolog();
@@ -109,13 +110,13 @@ final class Logger
      * Create Monolog logger without fucking brackets -> [] []  [] []  [] []  [] []  [] []
      * if context and extra is empty.
      */
-    public function addErrorLogHandler(): void
+    public function addStreamHandler(): void
     {
         $this->addHandler(function (string $level) {
-            $formatter = new LineFormatter(self::FORMAT);
+            $formatter = new ConsoleFormatter(self::FORMAT);
             $formatter->ignoreEmptyContextAndExtra();
 
-            $handler = new ErrorLogHandler(ErrorLogHandler::OPERATING_SYSTEM, $level);
+            $handler = new StreamHandler(ByteStream\getStdout(), $level);
             $handler->setFormatter($formatter);
 
             return $handler;
