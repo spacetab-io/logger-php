@@ -12,7 +12,6 @@ use Psr\Log\LogLevel;
 final class Logger
 {
     public const CHANNEL = 'App';
-    public const FORMAT = '[%datetime%] %channel%.%level_name%: %message% %context% %extra%';
 
     /**
      * Pre-defined logger handlers.
@@ -113,7 +112,7 @@ final class Logger
     public function addStreamHandler(): void
     {
         $this->addHandler(function (string $level) {
-            $formatter = new ConsoleFormatter(self::FORMAT);
+            $formatter = new ConsoleFormatter();
             $formatter->ignoreEmptyContextAndExtra();
 
             $handler = new StreamHandler(ByteStream\getStdout(), $level);
