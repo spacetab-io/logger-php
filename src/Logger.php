@@ -132,7 +132,7 @@ final class Logger
      * Create Monolog logger without fucking brackets -> [] []  [] []  [] []  [] []  [] []
      * if context and extra is empty.
      */
-    public function addStreamHandler(?ByteStream\OutputStream $outputStream = null): void
+    public function addStreamHandler(?ByteStream\WritableStream $outputStream = null): void
     {
         $outputStream = $outputStream ?: ByteStream\getStdout();
 
