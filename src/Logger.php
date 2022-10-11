@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Spacetab\Logger;
 
@@ -11,7 +13,7 @@ use Psr\Log\LogLevel;
 
 final class Logger
 {
-    public const CHANNEL = 'App';
+    public final const CHANNEL = 'App';
 
     /**
      * Pre-defined logger handlers.
@@ -20,19 +22,8 @@ final class Logger
      */
     private array $handlers = [];
 
-    /**
-     * @var string
-     */
-    private string $channel;
-
-    /**
-     * @var Monolog
-     */
     private Monolog $monolog;
 
-    /**
-     * @var string
-     */
     private string $level;
 
     /**
@@ -43,7 +34,6 @@ final class Logger
      */
     public function __construct(string $channel = self::CHANNEL, string $level = LogLevel::INFO)
     {
-        $this->channel = $channel;
         $this->level   = $level;
 
         $this->monolog = new Monolog($channel);
@@ -54,6 +44,7 @@ final class Logger
      *
      * @param string $channel
      * @param string $level
+     *
      * @return Logger
      */
     public static function new(string $channel = self::CHANNEL, string $level = LogLevel::INFO): Logger
@@ -65,13 +56,27 @@ final class Logger
     }
 
     /**
-     * Return registered default logger.
+     * Return registered default logger (forward logs to stdout).
      *
      * @param string $channel
      * @param string $level
-     * @return \Psr\Log\LoggerInterface
+     *
+     * @return LoggerInterface
      */
     public static function default(string $channel = self::CHANNEL, string $level = LogLevel::INFO): LoggerInterface
+    {
+        return self::stdout($channel, $level);
+    }
+
+    /**
+     * Return registered logger which forward logs to stderr.
+     *
+     * @param string $channel
+     * @param string $level
+     *
+     * @return LoggerInterface
+     */
+    public static function stdout(string $channel = self::CHANNEL, string $level = LogLevel::INFO): LoggerInterface
     {
         $log = new Logger($channel, $level);
         $log->addStreamHandler();
@@ -81,9 +86,27 @@ final class Logger
     }
 
     /**
+     * Return registered logger which forward logs to stderr.
+     *
+     * @param string $channel
+     * @param string $level
+     *
+     * @return LoggerInterface
+     */
+    public static function stderr(string $channel = self::CHANNEL, string $level = LogLevel::INFO): LoggerInterface
+    {
+        $log = new Logger($channel, $level);
+        $log->addStreamHandler(ByteStream\getStderr());
+        $log->register();
+
+        return $log->getMonolog();
+    }
+
+    /**
      * Add Monolog handler use callback.
      *
      * @param callable $callback
+     *
      * @return Logger
      */
     public function addHandler(callable $callback): self
@@ -109,22 +132,21 @@ final class Logger
      * Create Monolog logger without fucking brackets -> [] []  [] []  [] []  [] []  [] []
      * if context and extra is empty.
      */
-    public function addStreamHandler(): void
+    public function addStreamHandler(?ByteStream\OutputStream $outputStream = null): void
     {
-        $this->addHandler(function (string $level) {
+        $outputStream = $outputStream ?: ByteStream\getStdout();
+
+        $this->addHandler(function (string $level) use ($outputStream) {
             $formatter = new ConsoleFormatter();
             $formatter->ignoreEmptyContextAndExtra();
 
-            $handler = new StreamHandler(ByteStream\getStdout(), $level);
+            $handler = new StreamHandler($outputStream, $level);
             $handler->setFormatter($formatter);
 
             return $handler;
         });
     }
 
-    /**
-     * @return Monolog
-     */
     public function getMonolog(): Monolog
     {
         return $this->monolog;

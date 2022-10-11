@@ -9,7 +9,7 @@ Since `2.0.0` logger is non-blocking and based on Amp and Monolog.
 I create this library with one target, — I'm sick of always copies 
 and paste same code to any of my microservices with logs. 
 
-This wrapper solves one problem with logs. And it name, — fucking brackets -> [] [] [] [].
+This wrapper solves one problem with logs. And this problem, — fucking brackets -> [] [] [] [].
 
 Example, how this wrapper present the logs:
 
@@ -79,7 +79,7 @@ $log->register();
 $log->getMonolog()->info('Hello world');
 ```
 
-4) Okay. It's cool. But I have write logs to multiple streams. How I do it?
+4) Okay. It's cool. But I have written logs to multiple streams. How I do it?
 
 ```php
 <?php
@@ -105,7 +105,7 @@ Simple? Yes, and without fucking brackets.
 
 The MIT License
 
-Copyright © 2020 spacetab.io, Inc. https://spacetab.io
+Copyright © 2022 spacetab.io, Inc. https://spacetab.io
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
